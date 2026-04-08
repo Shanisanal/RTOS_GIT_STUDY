@@ -1,0 +1,13 @@
+.metadata/
+.settings/
+Debug/
+Release/
+*.list
+*.map
+*.o
+*.elf
+*.cproject
+*.mxproject
+*.project
+*.launch
+*.ld
