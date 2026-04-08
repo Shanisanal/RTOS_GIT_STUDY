@@ -205,9 +205,9 @@ bool ThreadCoreSignalSemaphore(const IPC_DEFINITION* pstIPCConfig)
 //Purpose   : Sends a data structure to a FreeRTOS Queue.
 //Inputs    : pstIPCConfig - Pointer to the IPC definition .
 //            pItemToQueue - Pointer to the data structure.
-//            ulWaitMs      - Max time to wait (in ms) if the queue is full.
+//            ulWaitMs     - Max time to wait (in ms) if the queue is full.
 //Outputs   : None
-//Return    : true if the item was successfully send to the queue. False if data
+//Return    : true if the data was successfully send to the queue. False if data
 //			  send failed.
 //Notes     : None
 //*****************************************************************************
