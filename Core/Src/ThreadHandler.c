@@ -56,6 +56,7 @@ void ThreadHandlerPoller(void* pArguments)
 
 			if(true == ThreadCoreQueueSend(pstPollerDataQueue, &stButtonMsg, QUEUE_TIMEOUT))
 			{
+				printf("%s:Sending Button ID to %s\r\n", POLLER_THREAD,TRANSPORT_THREAD);
 				if (false == ThreadCoreWaitSemaphore(pstAckToPollerSem,
 															TRANSPORT_ACK_TIMEOUT))
 				{
