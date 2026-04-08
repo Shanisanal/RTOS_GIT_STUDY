@@ -115,7 +115,6 @@ bool ThreadCoreCreateQueue(const IPC_DEFINITION* pstIPCConfig, uint32_t ulQueueL
 
     do
     {
-        /* 1. Safety check for the configuration and handle destination */
         if (NULL == pstIPCConfig)
         {
             printf("ERROR: Queue creation failed - Null configuration.\r\n");
