@@ -62,7 +62,7 @@ bool ThreadCoreCreateBinarySemaphore(const IPC_DEFINITION* pstIPCConfig)
 //Purpose   : Creates thread with specific attribute
 //Inputs    : pstThreadConfig - pointer to the thread definition structure.
 //Outputs   : None
-//Return    : true if thread creation succeeded.
+//Return    : true if thread creation succeeded. false if thread creation failed
 //Notes     : None
 //*****************************************************************************
 bool ThreadCoreCreateThread(const THREAD_DEFINITION* pstThreadConfig)
