@@ -56,7 +56,7 @@ void ThreadHandlerPoller(void* pArguments)
 
 			if(true == ThreadCoreQueueSend(pstPollerDataQueue, &stButtonMsg, QUEUE_TIMEOUT))
 			{
-//				printf("%s:Sending Button ID to %s\r\n", POLLER_THREAD,TRANSPORT_THREAD);
+				printf("%s:Sending Button ID to %s\r\n", POLLER_THREAD,TRANSPORT_THREAD);
 				if (false == ThreadCoreWaitSemaphore(pstAckToPollerSem,
 															TRANSPORT_ACK_TIMEOUT))
 				{
@@ -105,15 +105,21 @@ void ThreadHandlerTransport(void* pArguments)
 	{
 		if (true == ThreadCoreQueueReceive(pstFromPollerQue, &stReceivedMsg, portMAX_DELAY))
 		{
-			printf("%s: Received Button ID %lu from Poller\r\n",TRANSPORT_THREAD,
-																stReceivedMsg.ulButtonId);
+			printf("%s: Received Button ID %lu from %s\r\n",TRANSPORT_THREAD,
+													stReceivedMsg.ulButtonId, POLLER_THREAD);
 			if (true == ThreadCoreSignalSemaphore(pstAckToPollerSem))
 			{
 				if (true == ThreadCoreQueueSend(pstTransportDataQueue, &stReceivedMsg, QUEUE_TIMEOUT))
 				{
+					printf("%s:Sending Button ID to %s\r\n",TRANSPORT_THREAD, LOGGER_THREAD);
+
 					if (false == ThreadCoreWaitSemaphore(pstFromLoggerAckSem, LOGGER_ACK_TIMEOUT))
 					{
 						printf("ERROR: %s - Logger ACK Timeout!\r\n", TRANSPORT_THREAD);
+					}
+					else
+					{
+						printf("%s - ACK received from %s\r\n", TRANSPORT_THREAD,LOGGER_THREAD);
 					}
 				}
 				else
@@ -150,25 +156,25 @@ void ThreadHandlerLogger(void* pArguments)
 		if (true == ThreadCoreQueueReceive(pstFromTransportQue, &stLoggerReceiveMsg,
 																		portMAX_DELAY))
 		{
-			static bool blIsLEDOn = false;
+			static bool sblIsLEDOn = false;
 
-			printf("%s: Received Button ID %lu. Processing...\r\n", LOGGER_THREAD,
-														stLoggerReceiveMsg.ulButtonId);
+			printf("%s: Received Button ID %lu from %s\r\n", LOGGER_THREAD,
+								stLoggerReceiveMsg.ulButtonId, TRANSPORT_THREAD);
 
 			if (true == ThreadCoreSignalSemaphore(pstAckToPTransportSem))
 			{
 				printf("%s: ACK sent to %s.\r\n",LOGGER_THREAD,TRANSPORT_THREAD);
 
-				if (blIsLEDOn == false)
+				if (sblIsLEDOn == false)
 				{
 					HAL_GPIO_WritePin(GPIOB, LED_BLUE_Pin, GPIO_PIN_SET);
-					blIsLEDOn = true;
+					sblIsLEDOn = true;
 					printf("%s: LED turned ON\r\n",LOGGER_THREAD);
 				}
 				else
 				{
 					HAL_GPIO_WritePin(GPIOB, LED_BLUE_Pin, GPIO_PIN_RESET);
-					blIsLEDOn = false;
+					sblIsLEDOn = false;
 					printf("%s: LED turned OFF\r\n",LOGGER_THREAD);
 				}
 
