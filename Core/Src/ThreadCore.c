@@ -28,8 +28,8 @@
 //Purpose   : Creates a binary semaphore .
 //Inputs    : pstIPCConfig - pointer to the IPC definition structure.
 //Outputs   : None
-//Return    : true if semaphore creation succeeded false if failed to create
-//			  binary semaphore.
+//Return    : true if binary semaphore creation succeeded false if failed to
+//			  create binary semaphore.
 //Notes     : None
 //*****************************************************************************
 bool ThreadCoreCreateBinarySemaphore(const IPC_DEFINITION* pstIPCConfig)
